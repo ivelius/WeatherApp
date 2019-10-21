@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.yan.weatherapp.api.repositories.WeatherRepository
-import com.yan.weatherapp.data.GeoProvider
+import com.yan.weatherapp.heplers.GeoProvider
 import com.yan.weatherapp.models.Weather
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,12 +15,7 @@ class WeatherViewModel(
         private val geoProvider: GeoProvider) : ViewModel() {
 
     private val disposablesBag: CompositeDisposable = CompositeDisposable()
-    private val weather: MutableLiveData<Weather> by lazy {
-        MutableLiveData<Weather>().also {
-            refresh()
-        }
-    }
-
+    private val weather: MutableLiveData<Weather> = MutableLiveData()
     private val loadError: MutableLiveData<String> = MutableLiveData()
 
     fun getWeather(): LiveData<Weather> {
@@ -37,18 +32,22 @@ class WeatherViewModel(
     }
 
     fun refresh() {
-        disposablesBag.add(
-            weatherRepository.getWeather(geoProvider.longitude, geoProvider.latitude)
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        { result ->
-                            weather.value = result
-                        },
-                        { error ->
-                            loadError.value = error.message
-                        }
-                    )
-        )
+        geoProvider.updateLocation(listener = object : GeoProvider.Listener {
+            override fun onLocationReady(longitude: Double, latitude: Double) {
+                disposablesBag.add(
+                    weatherRepository.getWeather(longitude, latitude)
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                { result ->
+                                    weather.value = result
+                                },
+                                { error ->
+                                    loadError.value = error.message
+                                }
+                            )
+                )
+            }
+        })
     }
 }

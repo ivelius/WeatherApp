@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.yan.weatherapp.api.repositories.WeatherRepository
 import com.yan.weatherapp.api.services.WeatherService
-import com.yan.weatherapp.data.GeoProvider
+import com.yan.weatherapp.heplers.GeoProvider
 import com.yan.weatherapp.heplers.GeoPermissionManager
 import com.yan.weatherapp.models.Weather
 import com.yan.weatherapp.viewmodel.WeatherViewModel
@@ -28,6 +28,8 @@ class WeatherActivity : AppCompatActivity() {
     private fun handleGeolocationPermission() {
         if (!GeoPermissionManager.isPermissionGranted(this)) {
             GeoPermissionManager.requestGeoPermission(this)
+        } else {
+            viewModel.refresh()
         }
     }
 
@@ -49,7 +51,7 @@ class WeatherActivity : AppCompatActivity() {
     private fun setupViews() {
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Refreshing weather info", Snackbar.LENGTH_SHORT).show()
-            viewModel.refresh()
+            handleGeolocationPermission()
         }
     }
 
@@ -75,12 +77,14 @@ class WeatherActivity : AppCompatActivity() {
         "fog" -> R.drawable.ic_fog
         "cloudy" -> R.drawable.ic_cloudy
         "partly-cloudy-day" -> R.drawable.ic_partly_cloudy_day
-        " partly-cloudy-night" -> R.drawable.ic_partly_cloudy_night
+        "partly-cloudy-night" -> R.drawable.ic_partly_cloudy_night
         else -> R.drawable.ic_default
     }
 
     //TODO : Inject with Koin
     private fun createViewModel() =
-            WeatherViewModel(WeatherRepository(WeatherService.create()), GeoProvider())
+            WeatherViewModel(
+                WeatherRepository(WeatherService.create()),
+                GeoProvider())
 
 }

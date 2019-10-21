@@ -13,14 +13,14 @@ class GeoPermissionManager {
         fun isPermissionGranted(activity: Activity): Boolean {
             val permission = ContextCompat.checkSelfPermission(
                 activity,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
             return permission == PackageManager.PERMISSION_GRANTED
         }
 
         fun requestGeoPermission(activity: Activity) {
             ActivityCompat.requestPermissions(
                 activity, arrayOf(
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION), RECORD_REQUEST_CODE)
+                    android.Manifest.permission.ACCESS_FINE_LOCATION), RECORD_REQUEST_CODE)
         }
 
         fun didUserGrantedPermission(requestCode: Int, grantResults: IntArray): Boolean {

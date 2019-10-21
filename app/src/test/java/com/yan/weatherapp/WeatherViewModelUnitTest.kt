@@ -1,7 +1,7 @@
 package com.yan.weatherapp
 
 import com.yan.weatherapp.api.repositories.WeatherRepository
-import com.yan.weatherapp.data.GeoProvider
+import com.yan.weatherapp.heplers.GeoProvider
 import com.yan.weatherapp.models.Weather
 import com.yan.weatherapp.viewmodel.WeatherViewModel
 import io.reactivex.Single
