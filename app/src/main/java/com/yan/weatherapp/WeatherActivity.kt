@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.yan.weatherapp.api.repositories.WeatherRepository
 import com.yan.weatherapp.api.services.WeatherService
 import com.yan.weatherapp.data.GeoProvider
+import com.yan.weatherapp.heplers.GeoPermissionManager
 import com.yan.weatherapp.models.Weather
 import com.yan.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,6 +22,28 @@ class WeatherActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setupViews()
         connectViewModel()
+        handleGeolocationPermission()
+    }
+
+    private fun handleGeolocationPermission() {
+        if (!GeoPermissionManager.isPermissionGranted(this)) {
+            GeoPermissionManager.requestGeoPermission(this)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<String>, grantResults: IntArray) {
+
+        if (GeoPermissionManager.didUserGrantedPermission(requestCode, grantResults)) {
+            Snackbar.make(fab, "Permission has been granted by user", Snackbar.LENGTH_LONG)
+                    .show()
+            viewModel.refresh()
+
+        } else {
+            Snackbar.make(fab, "Permission has been denied by user", Snackbar.LENGTH_LONG)
+                    .show()
+        }
     }
 
     private fun setupViews() {
