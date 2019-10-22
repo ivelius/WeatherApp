@@ -8,6 +8,7 @@ import com.yan.weatherapp.api.repositories.WeatherRepository
 import com.yan.weatherapp.api.services.WeatherService
 import com.yan.weatherapp.heplers.GeoProvider
 import com.yan.weatherapp.heplers.GeoPermissionManager
+import com.yan.weatherapp.heplers.IconMapper
 import com.yan.weatherapp.models.Weather
 import com.yan.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -60,25 +61,12 @@ class WeatherActivity : AppCompatActivity() {
         viewModel.getWeather().observe(this, Observer<Weather> { weather ->
             timeZoneTextView.text = weather.timezone
             temperatureValueTextView.text = weather.currently.temperature.toString()
-            imageView.setImageResource(getImageResource(weather.currently.icon))
+            imageView.setImageResource(IconMapper.getImageResource(weather.currently.icon))
         })
 
         viewModel.getLoadError().observe(this, Observer<String> { errorMsg ->
             Snackbar.make(fab, errorMsg, Snackbar.LENGTH_LONG).show()
         })
-    }
-
-    private fun getImageResource(icon: String): Int = when (icon) {
-        "clear-day" -> R.drawable.ic_clear_day
-        "clear-night" -> R.drawable.ic_clear_night
-        "rain" -> R.drawable.ic_rain
-        "snow" -> R.drawable.ic_snow
-        "wind" -> R.drawable.ic_wind
-        "fog" -> R.drawable.ic_fog
-        "cloudy" -> R.drawable.ic_cloudy
-        "partly-cloudy-day" -> R.drawable.ic_partly_cloudy_day
-        "partly-cloudy-night" -> R.drawable.ic_partly_cloudy_night
-        else -> R.drawable.ic_default
     }
 
     //TODO : Inject with Koin
