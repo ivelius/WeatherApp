@@ -8,7 +8,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import com.yan.weatherapp.App
 
-class GeoProvider : LocationListener {
+class GeoProvider(private val appContext: Context = App.appContext) : LocationListener {
 
     private var listener: Listener? = null
 
@@ -36,12 +36,12 @@ class GeoProvider : LocationListener {
     @SuppressLint("MissingPermission")
     fun updateLocation(listener: Listener? = null) {
         this.listener = listener
-        val lm = App.appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        val lm = appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
         lm?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 1.0f, this)
     }
 
     private fun stopLocationsUpdate() {
-        val lm = App.appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        val lm = appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
         lm?.removeUpdates(this)
     }
 }
