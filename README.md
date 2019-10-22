@@ -1,7 +1,7 @@
 [![Circle CI](https://circleci.com/gh/ivelius/WeatherApp/tree/master.svg?style=svg)](https://circleci.com/gh/ivelius/WeatherApp/tree/master)
 # WeatherApp
 This is a very simple app that fetches minimal weather information based on the location of the user.
-![](https://raw.githubusercontent.com/ivelius/WeatherApp/master/screenshots/screenshot.png)
+![](https://raw.githubusercontent.com/ivelius/WeatherApp/master/screenshots/screenshot.png?s=100)
 
 ## Feature List
 
