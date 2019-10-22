@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -50,15 +48,11 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:2.13.0'
     testImplementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     testImplementation "android.arch.core:core-testing:$android_test_version"
-//    testImplementation 'androidx.arch.core:core-testing:2.0.1'
-//    testImplementation 'org.mockito:mockito-core:2.28.2'
 
     //Android tests
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation "androidx.test:runner:$android_test_version"
     androidTestImplementation "androidx.test.ext:junit:$android_test_version"
     androidTestImplementation "androidx.test:rules:$android_test_version"
-
-
 
 }

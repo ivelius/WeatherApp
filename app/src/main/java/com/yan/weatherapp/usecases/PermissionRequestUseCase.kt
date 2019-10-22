@@ -4,6 +4,9 @@ import com.yan.weatherapp.WeatherActivity
 import com.yan.weatherapp.heplers.GeoPermissionManager
 import com.yan.weatherapp.viewmodel.WeatherViewModel
 
+/**
+ * Handles the flow of geo location permissions request and location fetch
+ */
 class PermissionRequestUseCase(
         private val
         weatherActivity: WeatherActivity,

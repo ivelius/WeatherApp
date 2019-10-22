@@ -8,6 +8,9 @@ import android.location.LocationManager
 import android.os.Bundle
 import com.yan.weatherapp.App
 
+/**
+ * Simplifies geolocation request
+ */
 class GeoProvider(private val appContext: Context = App.appContext) : LocationListener {
 
     private var listener: Listener? = null

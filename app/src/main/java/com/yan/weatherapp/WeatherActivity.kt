@@ -63,7 +63,6 @@ class WeatherActivity : AppCompatActivity() {
         })
     }
 
-    //TODO : Inject with Koin
     private fun createViewModel() =
             WeatherViewModel(
                 WeatherRepository(WeatherService.create()),

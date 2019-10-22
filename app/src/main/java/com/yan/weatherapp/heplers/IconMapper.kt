@@ -2,6 +2,9 @@ package com.yan.weatherapp.heplers
 
 import com.yan.weatherapp.R
 
+/**
+ * Maps a predefined string to an icon according to https://darksky.net/dev/docs
+ */
 class IconMapper {
 
     companion object {

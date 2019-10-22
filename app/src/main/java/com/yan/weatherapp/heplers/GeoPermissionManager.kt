@@ -5,6 +5,9 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
+/**
+ * Handles the permission request boilerplate
+ */
 class GeoPermissionManager {
 
     private val REQUEST_CODE: Int = 87

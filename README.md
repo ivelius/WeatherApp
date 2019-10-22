@@ -19,6 +19,7 @@ This is a very simple app that fetches minimal weather information based on the 
   - Only one UI test
   - Using CircleCI to run the tests (see tests status on top of this README file)
   - MVVM Architecture
+  - No DI framework was used
   
 ## Installation
   - Clone the project and open it in Android Studio 3.+

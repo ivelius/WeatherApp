@@ -10,6 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * Handles the state of the weather view
+ */
 class WeatherViewModel(
         private val weatherRepository: WeatherRepository,
         private val geoProvider: GeoProvider) : ViewModel(), GeoProvider.Listener {
