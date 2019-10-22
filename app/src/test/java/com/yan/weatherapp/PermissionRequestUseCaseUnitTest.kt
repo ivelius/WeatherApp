@@ -44,8 +44,8 @@ class PermissionRequestUseCaseUnitTest {
         //When use case is executed
         sut.execute()
 
-        //View model will refresh the data
-        verify(viewModel, times(1)).refresh()
+        //View model will refreshData the data
+        verify(viewModel, times(1)).refreshData()
     }
 
     @Test

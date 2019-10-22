@@ -7,6 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import androidx.test.rule.GrantPermissionRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -28,6 +29,11 @@ class WeatherAcceptanceTest {
                 WeatherActivity::class.java, true,
                 false)
 
+    @Rule
+    @JvmField
+    val grantPermissionRule: GrantPermissionRule =
+            GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
+
     @Before
     fun setup() {
         //launch activity using empty intent (no arguments needed for now ...)
@@ -39,10 +45,10 @@ class WeatherAcceptanceTest {
     }
 
     @Test
-    fun reservationJourney_Test() {
-        // make sure text is visible on the screen
+    fun elements_visible_test() {
+        // make sure all elements are visible on the screen
+        onView(withId(R.id.temperatureValueTextView)).check(matches(isDisplayed()))
         onView(withId(R.id.timeZoneTextView)).check(matches(isDisplayed()))
-
+        onView(withId(R.id.temperatureImageView)).check(matches(isDisplayed()))
     }
-
 }

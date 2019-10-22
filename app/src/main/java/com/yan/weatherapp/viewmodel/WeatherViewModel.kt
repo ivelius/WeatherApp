@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 
 class WeatherViewModel(
         private val weatherRepository: WeatherRepository,
-        private val geoProvider: GeoProvider) : ViewModel() {
+        private val geoProvider: GeoProvider) : ViewModel(), GeoProvider.Listener {
 
     private val disposablesBag: CompositeDisposable = CompositeDisposable()
     private val weather: MutableLiveData<Weather> = MutableLiveData()
@@ -36,23 +36,24 @@ class WeatherViewModel(
         disposablesBag.dispose()
     }
 
-    fun refresh() {
-        geoProvider.updateLocation(listener = object : GeoProvider.Listener {
-            override fun onLocationReady(longitude: Double, latitude: Double) {
-                disposablesBag.add(
-                    weatherRepository.getWeather(longitude, latitude)
-                            .subscribeOn(Schedulers.computation())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                { result ->
-                                    weather.value = result
-                                },
-                                { error ->
-                                    loadError.value = error.message
-                                }
-                            )
-                )
-            }
-        })
+    fun refreshData() {
+        geoProvider.updateLocation(this)
     }
+
+    override fun onLocationReady(longitude: Double, latitude: Double) {
+        disposablesBag.add(
+            weatherRepository.getWeather(longitude, latitude)
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        { result ->
+                            weather.value = result
+                        },
+                        { error ->
+                            loadError.value = error.message
+                        }
+                    )
+        )
+    }
+
 }

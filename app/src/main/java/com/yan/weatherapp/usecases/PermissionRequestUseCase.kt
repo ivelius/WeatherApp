@@ -18,13 +18,13 @@ class PermissionRequestUseCase(
         if (!geoPermissionManager.isPermissionGranted(weatherActivity)) {
             geoPermissionManager.requestGeoPermission(weatherActivity)
         } else {
-            viewModel.refresh()
+            viewModel.refreshData()
         }
     }
 
     fun onRequestPermissionsResult(requestCode: Int, grantResults: IntArray) {
         if (geoPermissionManager.didUserGrantedPermission(requestCode, grantResults)) {
-            viewModel.refresh()
+            viewModel.refreshData()
         } else {
             viewModel.permissionError.value = "Permission has been denied by user"
         }

@@ -51,7 +51,7 @@ class WeatherActivity : AppCompatActivity() {
         viewModel.getWeather().observe(this, Observer<Weather> { weather ->
             timeZoneTextView.text = weather.timezone
             temperatureValueTextView.text = weather.currently.temperature.toString()
-            imageView.setImageResource(IconMapper.getImageResource(weather.currently.icon))
+            temperatureImageView.setImageResource(IconMapper.getImageResource(weather.currently.icon))
         })
 
         viewModel.getLoadError().observe(this, Observer<String> { errorMsg ->
