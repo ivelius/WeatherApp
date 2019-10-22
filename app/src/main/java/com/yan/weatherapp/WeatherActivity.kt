@@ -7,9 +7,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.yan.weatherapp.api.repositories.WeatherRepository
 import com.yan.weatherapp.api.services.WeatherService
 import com.yan.weatherapp.heplers.GeoProvider
-import com.yan.weatherapp.heplers.GeoPermissionManager
 import com.yan.weatherapp.heplers.IconMapper
 import com.yan.weatherapp.models.Weather
+import com.yan.weatherapp.usecases.PermissionRequestUseCase
 import com.yan.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -17,42 +17,32 @@ import kotlinx.android.synthetic.main.content_main.*
 class WeatherActivity : AppCompatActivity() {
 
     private lateinit var viewModel: WeatherViewModel
+    private lateinit var permissionRequestUseCase: PermissionRequestUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setupViews()
         connectViewModel()
-        handleGeolocationPermission()
+        startPermissionRequestFlow()
     }
 
-    private fun handleGeolocationPermission() {
-        if (!GeoPermissionManager.isPermissionGranted(this)) {
-            GeoPermissionManager.requestGeoPermission(this)
-        } else {
-            viewModel.refresh()
-        }
+    private fun startPermissionRequestFlow() {
+        permissionRequestUseCase = PermissionRequestUseCase(this, viewModel)
+        permissionRequestUseCase.execute()
     }
 
     override fun onRequestPermissionsResult(
             requestCode: Int,
             permissions: Array<String>, grantResults: IntArray) {
-
-        if (GeoPermissionManager.didUserGrantedPermission(requestCode, grantResults)) {
-            Snackbar.make(fab, "Permission has been granted by user", Snackbar.LENGTH_LONG)
-                    .show()
-            viewModel.refresh()
-
-        } else {
-            Snackbar.make(fab, "Permission has been denied by user", Snackbar.LENGTH_LONG)
-                    .show()
-        }
+        permissionRequestUseCase.onRequestPermissionsResult(requestCode, grantResults)
     }
 
     private fun setupViews() {
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Refreshing weather info", Snackbar.LENGTH_SHORT).show()
-            handleGeolocationPermission()
+            startPermissionRequestFlow()
         }
     }
 
@@ -65,6 +55,10 @@ class WeatherActivity : AppCompatActivity() {
         })
 
         viewModel.getLoadError().observe(this, Observer<String> { errorMsg ->
+            Snackbar.make(fab, errorMsg, Snackbar.LENGTH_LONG).show()
+        })
+
+        viewModel.getPermissionError().observe(this, Observer<String> { errorMsg ->
             Snackbar.make(fab, errorMsg, Snackbar.LENGTH_LONG).show()
         })
     }

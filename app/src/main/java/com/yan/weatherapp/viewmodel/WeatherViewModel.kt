@@ -17,6 +17,7 @@ class WeatherViewModel(
     private val disposablesBag: CompositeDisposable = CompositeDisposable()
     private val weather: MutableLiveData<Weather> = MutableLiveData()
     private val loadError: MutableLiveData<String> = MutableLiveData()
+    val permissionError: MutableLiveData<String> = MutableLiveData()
 
     fun getWeather(): LiveData<Weather> {
         return weather
@@ -24,6 +25,10 @@ class WeatherViewModel(
 
     fun getLoadError(): LiveData<String> {
         return loadError
+    }
+
+    fun getPermissionError(): LiveData<String> {
+        return permissionError
     }
 
     override fun onCleared() {
