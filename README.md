@@ -1,4 +1,5 @@
-[![CircleCI](https://circleci.com/gh/ivelius/WeatherApp.svg?style=svg)](https://circleci.com/gh/ivelius/WeatherApp)# WeatherApp
+[![CircleCI](https://circleci.com/gh/ivelius/WeatherApp.svg?style=svg)](https://circleci.com/gh/ivelius/WeatherApp)
+# WeatherApp
 This is a very simple app that fetches minimal weather information based on the location of the user.
 ![](https://raw.githubusercontent.com/ivelius/WeatherApp/master/screenshots/screenshot.png?s=100)
 
